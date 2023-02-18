@@ -1,0 +1,22 @@
+fileignoreconfig:
+- filename: .idea/dataSources.local.xml
+  checksum: 91b2a34d415f24bb68a959891c7535aef16859102407f3ebb8e60bfae3ecebae
+- filename: .idea/dataSources/2e13e5e1-cfb3-4d97-8723-94aaf9a018ef.xml
+  checksum: 124da2380f7dfd8eb16f397c57b69018feadaf11f84f15487584aecca2f0c4e3
+- filename: .idea/dataSources/2e13e5e1-cfb3-4d97-8723-94aaf9a018ef/storage_v2/_src_/schema/mysql.osA4Bg.meta
+  checksum: 2c46a66685699580cef975fdac8a78301a32387b7548ab65ab7128af86027060
+- filename: .idea/sqldialects.xml
+  checksum: ec60b9220088df498d4d68c0fba657329b6d0818842f8b53f52ce14659574b9a
+- filename: .idea/uiDesigner.xml
+  checksum: 18be3885953534e90388d323127b1e8a412d666d9fe4c4b2f315c589933b5f67
+- filename: src/main/resources/application.yml
+  checksum: 1618ca703abdf197776e1d6260ba151ea28a6ade430b6b34b3d3a1adb5e56939
+- filename: src/main/resources/sql/orderTable.sql
+  checksum: c256383e7939abd0f74e699d949de3dcfdbdd007479e505b1db73b0cb31fe744
+- filename: src/test/java/com/tiker/mapper/OrderMapperTest.java
+  checksum: de3b1f8914b8db4443ab4c1b21c2a2e4875fc5293a8bbfb7d0624c13d274acad
+- filename: target/classes/application.yml
+  checksum: 181489aeff7a6faab25694e97cfe2ad13dd7a8923ce87211fb84858db677d29b
+- filename: target/classes/sql/orderTable.sql
+  checksum: 6770a147a638c12d1e520a266c0095c78f3807589a33c386798952d03426b7cc
+version: "1.0"

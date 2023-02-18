@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiker.dao.OrderMapper">
+    <insert id="insertOrder">
+        insert into
+        `order`(id, price, status, requester, duty)
+        value
+        (#{id}, #{price}, #{status}, #{requester}, #{duty});
+    </insert>
+
+    <select id="getOrderListByFilter" parameterType="com.tiker.entity.bo.GetOrderBO" resultType="com.tiker.entity.vo.ShowOrderVO">
+        select
+            o.id as orderId, o.price, o.requester,
+            d.id as dutyId, d.university, d.campus, d.building, d.school_room as schoolRoom, d.course,
+            d.date, d.start_time as startTime, d.end_time as endTime, d.comment
+        from `order` o join duty d
+        on o.duty = d.id
+        where o.status = 1
+        <if test="university != null">
+            and d.university = #{university}
+        </if>
+        <if test="campus != null">
+            and d.campus = #{campus}
+        </if>
+        <if test="date != null">
+            and d.date = #{date}
+        </if>
+        <if test="startTime != null and endTime != null">
+            and d.start_time >= #{startTime}
+            and d.end_time &lt;= #{endTime}
+        </if>
+    </select>
+
+    <select id="getOrder" resultType="com.tiker.entity.bo.OrderBO">
+        select
+            id, status, requester
+        from `order`
+        where id = #{id}
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="requester != null">
+            and requester = #{requester}
+        </if>
+        <if test="recipient != null">
+            and recipient = #{recipient}
+        </if>
+    </select>
+
+    <update id="changeOrderStatus">
+        update
+            `order`
+        set status = #{status}
+        <if test="recipient != null">
+            , recipient = #{recipient}
+        </if>
+        where id = #{id}
+    </update>
+
+<!--    <select id="selectOrderList" resultType="com.tiker.entity.bo.OrderBO" >-->
+<!--        select-->
+<!--            *-->
+<!--        from-->
+<!--            orders-->
+<!--    </select>-->
+
+<!--    <select id="queryOrderListByUserIdAndStatus" resultType="com.tiker.entity.vo.ShowOrderVO">-->
+<!--        select-->
+<!--        o.id, o.price, o.request_user_id, o.accept_user_id, d.start_datetime, d.end_datetime,-->
+<!--        d.college, d.building, d.classroom, d.class_name, d.comment-->
+<!--        from-->
+<!--        orders o, duties d-->
+<!--        where o.id = d.order_id-->
+<!--        <if test="requestUserId != null">-->
+<!--            and o.request_user_id = #{requestUserId}-->
+<!--        </if>-->
+<!--        <if test="acceptUserId != null">-->
+<!--            and o.accept_user_id = #{acceptUserId}-->
+<!--        </if>-->
+<!--        and o.status = #{status}-->
+<!--    </select>-->
+
+<!--    <update id="updateAcceptorAndStatus">-->
+<!--        update-->
+<!--            orders-->
+<!--        set-->
+<!--            accept_user_id = #{acceptUserId}, status = #{orderStatus}-->
+<!--        where-->
+<!--            id = #{orderId}-->
+<!--    </update>-->
+
+<!--    <update id="updateStatus">-->
+<!--        update-->
+<!--            orders-->
+<!--        set-->
+<!--            status = #{orderStatus}-->
+<!--        where-->
+<!--            id = #{orderId}-->
+<!--    </update>-->
+
+
+<!--    <resultMap type="Student" id="StudentResult">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="name" column="name"/>-->
+<!--        <result property="age" column="age"/>-->
+<!--        <association property="address" column="addid" select="com.qbd.mapper.AddressMappers.findbyid">-->
+<!--        </association>-->
+<!--        <association property="grade" column="gid" select="com.qbd.mapper.GradeMappers.findbyid">-->
+<!--        </association>-->
+<!--    </resultMap>-->
+</mapper>

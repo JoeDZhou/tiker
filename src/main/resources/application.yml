@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/tiker?characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: Zhoujiazheng123...
+    driver-class-name: com.mysql.cj.jdbc.Driver
