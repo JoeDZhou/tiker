@@ -62,4 +62,24 @@ public class OrderController {
             return new RestResultDTO(1, "Complete order error: No such order", null);
         }
     }
+
+    @PostMapping("/giveUpOrder")
+    public RestResultDTO giveUpOrder(@RequestParam("orderId") String orderId, @RequestParam("recipientId") String recipientId) throws Exception {
+        int giveUpNum = orderService.giveUpOrder(orderId, recipientId);
+        if (giveUpNum > 0) {
+            return new RestResultDTO(0, "Success", null);
+        } else {
+            return new RestResultDTO(1, "Give up order error: No such order", null);
+        }
+    }
+
+    @PostMapping("/finishOrder")
+    public RestResultDTO finishOrder(@RequestParam("orderId") String orderId, @RequestParam("requesterId") String requesterId) throws Exception {
+        int finishNum = orderService.finishOrder(orderId, requesterId);
+        if (finishNum > 0) {
+            return new RestResultDTO(0, "Success", null);
+        } else {
+            return new RestResultDTO(1, "Finish order error: No such order", null);
+        }
+    }
 }

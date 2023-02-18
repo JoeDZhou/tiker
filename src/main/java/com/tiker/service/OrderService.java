@@ -17,4 +17,8 @@ public interface OrderService {
     int acceptOrder(String orderId, String recipientId) throws Exception;
 
     int completeOrder(String orderId, String recipientId) throws Exception;
+
+    int giveUpOrder(String orderId, String recipientId) throws Exception;
+
+    int finishOrder(String orderId, String requesterId) throws Exception;
 }

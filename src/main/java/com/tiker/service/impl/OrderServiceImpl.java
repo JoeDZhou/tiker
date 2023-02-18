@@ -104,5 +104,24 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.changeOrderStatus(orderId, OrderStatusEnum.COMPlETE_ORDER.getStatusCode(), null);
     }
 
+    @Override
+    public int giveUpOrder(String orderId, String recipientId) throws Exception {
+        OrderBO toGiveUpOrder = orderMapper.getOrder(orderId, null, recipientId, OrderStatusEnum.ACCEPTED_ORDER.getStatusCode());
+        if (toGiveUpOrder == null) {
+            throw new Exception("Error: No such order");
+        }
+
+        return orderMapper.changeOrderStatus(orderId, OrderStatusEnum.GIVE_UP_ORDER.getStatusCode(), "");
+    }
+
+    @Override
+    public int finishOrder(String orderId, String requesterId) throws Exception {
+        OrderBO toFinishOrder = orderMapper.getOrder(orderId, requesterId, null, OrderStatusEnum.COMPlETE_ORDER.getStatusCode());
+        if (toFinishOrder == null) {
+            throw new Exception("Error: No such order");
+        }
+
+        return orderMapper.changeOrderStatus(orderId, OrderStatusEnum.FINISHED_ORDER.getStatusCode(), null);
+    }
 
 }
