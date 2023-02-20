@@ -59,6 +59,25 @@
         where id = #{id}
     </update>
 
+    <select id="getOrderByUserAndStatus" resultType="com.tiker.entity.vo.ShowOrderVO">
+        select
+            o.id as orderId, o.price, o.requester, o.recipient, o.rate, o.status,
+            d.id as dutyId, d.university, d.campus, d.building, d.school_room as schoolRoom, d.course,
+            d.date, d.start_time as startTime, d.end_time as endTime, d.comment
+        from `order` o join duty d
+        on o.duty = d.id
+        where 1 = 1
+        <if test="requester != null">
+            and o.requester = #{requester}
+        </if>
+        <if test="recipient != null">
+            and o.recipient = #{recipient}
+        </if>
+        <if test="status >= 0">
+            and o.status = #{status}
+        </if>
+    </select>
+
 <!--    <select id="selectOrderList" resultType="com.tiker.entity.bo.OrderBO" >-->
 <!--        select-->
 <!--            *-->

@@ -21,4 +21,8 @@ public interface OrderService {
     int giveUpOrder(String orderId, String recipientId) throws Exception;
 
     int finishOrder(String orderId, String requesterId) throws Exception;
+
+    List<ShowOrderVO> getAllMyOrdersAsRequester(String requester);
+
+    List<ShowOrderVO> getAllMyOrdersAsRecipient(String recipient);
 }

@@ -124,4 +124,15 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.changeOrderStatus(orderId, OrderStatusEnum.FINISHED_ORDER.getStatusCode(), null);
     }
 
+    @Override
+    public List<ShowOrderVO> getAllMyOrdersAsRequester(String requester) {
+        return orderMapper.getOrderByUserAndStatus(requester, null, -1);
+    }
+
+    @Override
+    public List<ShowOrderVO> getAllMyOrdersAsRecipient(String recipient) {
+        return orderMapper.getOrderByUserAndStatus(null, recipient, -1);
+    }
+
+
 }

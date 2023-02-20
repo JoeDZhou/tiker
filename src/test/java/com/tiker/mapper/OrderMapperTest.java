@@ -103,32 +103,13 @@ public class OrderMapperTest {
         orderMapper.changeOrderStatus(result.getId(), 1, null);
     }
 
-//    @Test
-//    public void testUpdateAcceptorAndStatus() {
-//        String orderId = "aaa";
-//        String acceptorId = "testAcceptorId";
-//        int orderStatus = 2;
-//
-//        orderMapper.updateAcceptorAndStatus(orderId, acceptorId, orderStatus);
-//    }
-//
-//    @Test
-//    public void testUpdateStatus() {
-//        String orderId = "aaa";
-//        int orderStatus = 3;
-//
-//        orderMapper.updateStatus(orderId, orderStatus);
-//    }
-//
-//    @Test
-//    public void testQueryOrderListByUserIdAndStatus(){
-//        String requestUserId = "abc";
-//        List<ShowOrderVO> showOrderVOList = orderMapper.queryOrderListByUserIdAndStatus(requestUserId, null, 2);
-//
-//        assertEquals(showOrderVOList.size(), 1);
-//
-//        for (ShowOrderVO vo : showOrderVOList){
-//            System.out.println(vo);
-//        }
-//    }
+    @Test
+    public void testGetOrderByUserAndStatus() {
+        List<ShowOrderVO> result = orderMapper.getOrderByUserAndStatus("memememe", null, -1);
+        System.out.println(result);
+        assertEquals(2, result.size());
+        for (ShowOrderVO vo : result) {
+            assertEquals("memememe", vo.getRequester());
+        }
+    }
 }

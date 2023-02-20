@@ -82,4 +82,16 @@ public class OrderController {
             return new RestResultDTO(1, "Finish order error: No such order", null);
         }
     }
+
+    @GetMapping("/requesterOrderList")
+    public RestResultDTO requesterOrderList(@RequestParam("requesterId") String requesterId) {
+        List<ShowOrderVO> requesterOrderList = orderService.getAllMyOrdersAsRequester(requesterId);
+        return new RestResultDTO(0, "Success", requesterOrderList);
+    }
+
+    @GetMapping("/recipientOrderList")
+    public RestResultDTO recipientOrderList(@RequestParam("recipientId") String recipientId) {
+        List<ShowOrderVO> recipientOrderList = orderService.getAllMyOrdersAsRecipient(recipientId);
+        return new RestResultDTO(0, "Success", recipientOrderList);
+    }
 }

@@ -16,15 +16,6 @@ public interface OrderMapper {
     OrderBO getOrder(@Param("id") String id, @Param("requester") String requester, @Param("recipient") String recipient, @Param("status") int status);
 
     int changeOrderStatus(@Param("id") String id, @Param("status") int status, @Param("recipient") String recipient);
-//
-//    List<ShowOrderVO> queryOrderListByUserIdAndStatus(@Param("requestUserId") String requestUserId,
-//                                                      @Param("acceptUserId") String acceptUserId,
-//                                                      @Param("status") int status);
 
-
-//    int updateAcceptorAndStatus(@Param("orderId") String orderId,
-//                                @Param("acceptUserId") String acceptUserId,
-//                                @Param("orderStatus") int orderStatus);
-//
-//    int updateStatus(@Param("orderId") String orderId, @Param("orderStatus") int orderStatus);
+    List<ShowOrderVO> getOrderByUserAndStatus(@Param("requester") String requester, @Param("recipient") String recipient, @Param("status") int status);
 }
