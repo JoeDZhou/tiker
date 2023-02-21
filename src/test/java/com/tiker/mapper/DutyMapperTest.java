@@ -2,7 +2,6 @@ package com.tiker.mapper;
 
 import com.tiker.dao.DutyMapper;
 import com.tiker.entity.bo.DutyBO;
-import com.tiker.entity.Location;
 import com.tiker.util.IDGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;

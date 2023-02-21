@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiker.dao.AddressMapper">
+    <insert id="insertAddress" parameterType="com.tiker.entity.dto.AddressDTO">
+        insert into
+        address(id, university, campus, user, `default`)
+        value
+        (#{id}, #{university}, #{campus}, #{user}, #{isDefault});
+    </insert>
+
+    <select id="getAddressByDefaultOrNot" resultType="com.tiker.entity.vo.ShowAddressVO">
+        select
+            id, university, campus, user, `default` as isDefault
+        from address
+        <if test="default != null">
+            where `default` = #{isDefault}
+        </if>
+    </select>
+
+    <update id="updateStatus">
+        update
+        address
+        set `default` = #{isDefault}
+        where id = #{addressId}
+    </update>
+
+    <update id="updateAddress" parameterType="com.tiker.entity.dto.AddressDTO">
+        update
+            address
+        set university = #{university},
+            campus = #{campus},
+            `default` = #{isDefault}
+        where id = #{id}
+    </update>
+</mapper>
