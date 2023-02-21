@@ -9,9 +9,11 @@ import java.util.List;
 public interface AddressMapper {
     int insertAddress(AddressDTO addressDTO);
 
-    List<ShowAddressVO> getAddressByDefaultOrNot(int isDefault);
+    List<ShowAddressVO> getAddressByDefaultOrNot(@Param("userId") String userId, @Param("isDefault") int isDefault);
 
     int updateStatus(@Param("addressId") String addressId, @Param("isDefault") int isDefault);
 
     int updateAddress(AddressDTO addressDTO);
+
+    int deleteAddress(@Param("addressId") String addressId);
 }

@@ -20,7 +20,7 @@ public class AddressMapperTest {
     private AddressMapper addressMapper;
     @Test
     public void testGetAddressByDefaultOrNot() {
-        List<ShowAddressVO> addresses = addressMapper.getAddressByDefaultOrNot(1);
+        List<ShowAddressVO> addresses = addressMapper.getAddressByDefaultOrNot("testUser123", 1);
         System.out.println(addresses);
         assertEquals(1, addresses.size());
         assertEquals(1, addresses.get(0).getIsDefault());
@@ -28,7 +28,7 @@ public class AddressMapperTest {
 
     @Test
     public void testGetUpdateAddressIsDefault() {
-        List<ShowAddressVO> addresses = addressMapper.getAddressByDefaultOrNot(1);
+        List<ShowAddressVO> addresses = addressMapper.getAddressByDefaultOrNot("testUser123", 1);
         addresses.get(0).setIsDefault(0);
         addressMapper.updateStatus(addresses.get(0).getId(), 0);
     }

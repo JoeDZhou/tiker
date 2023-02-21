@@ -2,13 +2,12 @@ package com.tiker.controller;
 
 import com.tiker.entity.dto.AddressDTO;
 import com.tiker.entity.dto.RestResultDTO;
+import com.tiker.entity.vo.ShowAddressVO;
 import com.tiker.service.AddressService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/address")
@@ -26,12 +25,32 @@ public class AddressController {
     }
 
     @PostMapping("/editAddress")
-    public RestResultDTO edit(@RequestBody AddressDTO addressDTO) {
+    public RestResultDTO editAddress(@RequestBody AddressDTO addressDTO) {
         int editNum = addressService.editAddress(addressDTO);
         if (editNum > 0) {
             return new RestResultDTO(0, "Success", null);
         } else {
             return new RestResultDTO(1, "Edit address error", null);
+        }
+    }
+
+    @GetMapping("/addressList")
+    public RestResultDTO addressList(@RequestParam("userId") String userId) {
+        List<ShowAddressVO> result = addressService.getUserAddressList(userId);
+        if (result != null) {
+            return new RestResultDTO(0, "Success", result);
+        } else {
+            return new RestResultDTO(1, "Get address list error", null);
+        }
+    }
+
+    @PostMapping("/deleteAddress")
+    public RestResultDTO deleteAddress(@RequestParam("addressId") String addressId) {
+        int deleteNum = addressService.deleteAddress(addressId);
+        if (deleteNum > 0) {
+            return new RestResultDTO(0, "Success", null);
+        } else {
+            return new RestResultDTO(1, "Delete address error", null);
         }
     }
 }

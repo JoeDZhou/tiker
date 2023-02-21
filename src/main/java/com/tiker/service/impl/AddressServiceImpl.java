@@ -14,13 +14,14 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
     public static final int DEFAULT_ADDRESS = 1;
     public static final int NOT_DEFAULT_ADDRESS = 0;
+    public static final int NON_TYPE_DEFAULT = -1;
 
     @Resource
     private AddressMapper addressMapper;
     @Override
     @Transactional
     public int createAddress(AddressDTO addressDTO) {
-        cancelCurrentDefaultAddress();
+        cancelCurrentDefaultAddress(addressDTO.getUser());
 
         return addressMapper.insertAddress(addressDTO);
     }
@@ -29,14 +30,24 @@ public class AddressServiceImpl implements AddressService {
     @Transactional
     public int editAddress(AddressDTO addressDTO) {
         if (addressDTO.getIsDefault() == DEFAULT_ADDRESS) {
-            cancelCurrentDefaultAddress();
+            cancelCurrentDefaultAddress(addressDTO.getUser());
         }
 
         return addressMapper.updateAddress(addressDTO);
     }
 
-    private void cancelCurrentDefaultAddress() {
-        List<ShowAddressVO> currentDefaultAddress = addressMapper.getAddressByDefaultOrNot(DEFAULT_ADDRESS);
+    @Override
+    public List<ShowAddressVO> getUserAddressList(String userId) {
+        return addressMapper.getAddressByDefaultOrNot(userId, NON_TYPE_DEFAULT);
+    }
+
+    @Override
+    public int deleteAddress(String addressId) {
+        return addressMapper.deleteAddress(addressId);
+    }
+
+    private void cancelCurrentDefaultAddress(String userId) {
+        List<ShowAddressVO> currentDefaultAddress = addressMapper.getAddressByDefaultOrNot(userId, DEFAULT_ADDRESS);
         if (!currentDefaultAddress.isEmpty()) {
             addressMapper.updateStatus(currentDefaultAddress.get(0).getId(), NOT_DEFAULT_ADDRESS);
         }

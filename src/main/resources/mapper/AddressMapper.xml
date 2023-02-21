@@ -14,8 +14,9 @@
         select
             id, university, campus, user, `default` as isDefault
         from address
-        <if test="default != null">
-            where `default` = #{isDefault}
+        where user = #{userId}
+        <if test="isDefault > 0">
+            and `default` = #{isDefault}
         </if>
     </select>
 
@@ -34,4 +35,10 @@
             `default` = #{isDefault}
         where id = #{id}
     </update>
+
+    <delete id="deleteAddress">
+        delete
+        from address
+        where id = #{addressId}
+    </delete>
 </mapper>
