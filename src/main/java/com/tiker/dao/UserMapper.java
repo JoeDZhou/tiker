@@ -1,7 +1,10 @@
 package com.tiker.dao;
 
-import com.tiker.entity.User;
+import com.tiker.entity.bo.UserBO;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
-    int insertUser(User user);
+    int insertUser(UserBO user);
+
+    UserBO getUserByIdOrPhone(@Param("id") String id, @Param("phone") String phone);
 }

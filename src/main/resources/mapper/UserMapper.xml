@@ -4,18 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tiker.dao.UserMapper">
 
-    <insert id="insertUser" parameterType="com.tiker.entity.User" >
+    <insert id="insertUser" parameterType="com.tiker.entity.bo.UserBO" >
         insert into
-        users(id, phone_number, nickname, password
-        <if test="college != null">
-            , college
-        </if>
-        )
+        user(id, account, nickname, phone, password)
         value
-        (#{id}, #{phoneNumber}, #{nickname}, #{password}
-        <if test="college != null">
-            , #{college}
-        </if>
-        );
+        (#{id}, #{account}, #{nickname}, #{phone}, #{password});
     </insert>
+
+    <select id="getUserByIdOrPhone" resultType="com.tiker.entity.bo.UserBO">
+        select
+            id
+        from user
+        where 1 = 1
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="phone != null">
+            and phone = #{phone}
+        </if>
+    </select>
 </mapper>
