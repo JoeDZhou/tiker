@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     private DutyMapper dutyMapper;
 
     private SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd");
-    private SimpleDateFormat timeFormat =  new SimpleDateFormat("HH:mm:ss");
+    private SimpleDateFormat timeFormat =  new SimpleDateFormat("HH:mm");
 
     @Override
     public int createOrder(CreateOrderDTO createOrderDto) throws Exception {
