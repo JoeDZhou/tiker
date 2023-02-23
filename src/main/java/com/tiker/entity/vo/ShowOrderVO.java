@@ -18,8 +18,7 @@ public class ShowOrderVO {
     private String dutyId;
     private String university;
     private String campus;
-    private String building;
-    private String schoolRoom;
+    private String location;
     private String course;
     private Date date;
     private Date startTime;
@@ -38,8 +37,7 @@ public class ShowOrderVO {
                 ", dutyId='" + dutyId + '\'' +
                 ", university='" + university + '\'' +
                 ", campus='" + campus + '\'' +
-                ", building='" + building + '\'' +
-                ", schoolRoom='" + schoolRoom + '\'' +
+                ", location='" + location + '\'' +
                 ", course='" + course + '\'' +
                 ", date=" + date +
                 ", startTime=" + startTime +

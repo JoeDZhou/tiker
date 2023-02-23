@@ -13,7 +13,7 @@
     <select id="getOrderListByFilter" parameterType="com.tiker.entity.bo.GetOrderBO" resultType="com.tiker.entity.vo.ShowOrderVO">
         select
             o.id as orderId, o.price, o.requester,
-            d.id as dutyId, d.university, d.campus, d.building, d.school_room as schoolRoom, d.course,
+            d.id as dutyId, d.university, d.campus, d.location, d.course,
             d.date, d.start_time as startTime, d.end_time as endTime, d.comment
         from `order` o join duty d
         on o.duty = d.id
@@ -62,7 +62,7 @@
     <select id="getOrderByUserAndStatus" resultType="com.tiker.entity.vo.ShowOrderVO">
         select
             o.id as orderId, o.price, o.requester, o.recipient, o.rate, o.status,
-            d.id as dutyId, d.university, d.campus, d.building, d.school_room as schoolRoom, d.course,
+            d.id as dutyId, d.university, d.campus, d.location, d.course,
             d.date, d.start_time as startTime, d.end_time as endTime, d.comment
         from `order` o join duty d
         on o.duty = d.id

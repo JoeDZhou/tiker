@@ -7,8 +7,7 @@ public class CreateOrderDTO {
     //Duty fields
     private String university;
     private String campus;
-    private String building;
-    private String schoolRoom;
+    private String location;
     private String course;
     private String date;
     private String startTime;

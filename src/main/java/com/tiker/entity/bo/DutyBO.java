@@ -8,8 +8,7 @@ public class DutyBO {
     private String id;
     private String university;
     private String campus;
-    private String building;
-    private String schoolRoom;
+    private String location;
     private String course;
     private Date date;
     private Date startTime;

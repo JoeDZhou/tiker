@@ -6,9 +6,9 @@
 
     <insert id="insertDuty" parameterType="com.tiker.entity.bo.DutyBO">
         insert into
-        duty(id, university, campus, building, school_room, course, date, start_time, end_time, comment)
+        duty(id, university, campus, location, course, date, start_time, end_time, comment)
         value
-        (#{id}, #{university}, #{campus}, #{building}, #{schoolRoom}, #{course}, #{date}, #{startTime}, #{endTime}, #{comment});
+        (#{id}, #{university}, #{campus}, #{location}, #{course}, #{date}, #{startTime}, #{endTime}, #{comment});
     </insert>
 
 <!--    <select id="selectOrderList" resultType="com.tiker.entity.Order" >-->
