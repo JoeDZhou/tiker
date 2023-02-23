@@ -28,7 +28,7 @@ public class OrderController {
     }
 
     @GetMapping("/filterOrderList")
-    public RestResultDTO filterOrderList(@RequestBody GetOrderDTO getOrderDto) throws ParseException {
+    public RestResultDTO filterOrderList(GetOrderDTO getOrderDto) throws ParseException {
         List<ShowOrderVO> orders =  orderService.getOrderList(getOrderDto);
         return new RestResultDTO(0, "Success", orders);
     }
