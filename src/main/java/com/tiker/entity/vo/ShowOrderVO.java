@@ -20,9 +20,9 @@ public class ShowOrderVO {
     private String campus;
     private String location;
     private String course;
-    private Date date;
-    private Date startTime;
-    private Date endTime;
+    private String date;
+    private String startTime;
+    private String endTime;
     private String comment;
 
     @Override

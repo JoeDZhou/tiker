@@ -71,7 +71,17 @@ public class OrderServiceImpl implements OrderService {
         getOrderBO.setEndTime(timeFormat.parse(getOrderDto.getEndTime()));
         BeanUtils.copyProperties(getOrderDto, getOrderBO);
 
-        return orderMapper.getOrderListByFilter(getOrderBO);
+        List<ShowOrderVO> orders =  orderMapper.getOrderListByFilter(getOrderBO);
+        parseOrderTime(orders);
+
+        return orders;
+    }
+
+    private void parseOrderTime(List<ShowOrderVO> orders) {
+        for (ShowOrderVO orderVO : orders) {
+            orderVO.setStartTime(orderVO.getStartTime().substring(0, 5));
+            orderVO.setEndTime(orderVO.getEndTime().substring(0, 5));
+        }
     }
 
     @Override
