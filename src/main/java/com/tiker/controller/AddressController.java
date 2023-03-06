@@ -44,6 +44,11 @@ public class AddressController {
         }
     }
 
+    @GetMapping("/getDefaultAddress")
+    public RestResultDTO getDefaultAddress(@RequestParam("userId") String userId) {
+        return new RestResultDTO(0, "Success", addressService.getUserDefaultAddress(userId));
+    }
+
     @PostMapping("/deleteAddress")
     public RestResultDTO deleteAddress(@RequestParam("addressId") String addressId) {
         int deleteNum = addressService.deleteAddress(addressId);

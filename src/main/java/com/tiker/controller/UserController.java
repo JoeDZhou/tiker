@@ -3,6 +3,7 @@ package com.tiker.controller;
 import com.tiker.entity.dto.CreateUserDTO;
 import com.tiker.entity.dto.RestResultDTO;
 import com.tiker.entity.dto.WXLoginResultDTO;
+import com.tiker.entity.vo.ShowUserVO;
 import com.tiker.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,16 @@ public class UserController {
             return new RestResultDTO(0, "Success", loginResult.getOpenid());
         } else {
             return new RestResultDTO(1, "Login failed", loginResult.getErrmsg());
+        }
+    }
+
+    @GetMapping("/getBaseInfo")
+    public RestResultDTO getBaseInfo(@RequestParam String userId) {
+        ShowUserVO userVO = userService.getUserBaseInfo(userId);
+        if (userVO != null) {
+            return new RestResultDTO(0, "Success", userVO);
+        } else {
+            return new RestResultDTO(1, "Get user base info failed", null);
         }
     }
 }

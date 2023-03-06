@@ -42,6 +42,17 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public ShowAddressVO getUserDefaultAddress(String userId) {
+        List<ShowAddressVO> addresses = addressMapper.getAddressByDefaultOrNot(userId, DEFAULT_ADDRESS);
+
+        if (addresses.isEmpty()) {
+            return null;
+        }
+
+        return addresses.get(0);
+    }
+
+    @Override
     public int deleteAddress(String addressId) {
         return addressMapper.deleteAddress(addressId);
     }

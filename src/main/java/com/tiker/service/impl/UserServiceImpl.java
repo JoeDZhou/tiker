@@ -5,6 +5,7 @@ import com.tiker.dao.UserMapper;
 import com.tiker.entity.bo.UserBO;
 import com.tiker.entity.bo.WxUserBo;
 import com.tiker.entity.dto.WXLoginResultDTO;
+import com.tiker.entity.vo.ShowUserVO;
 import com.tiker.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -58,6 +59,13 @@ public class UserServiceImpl implements UserService {
         }
 
         return loginResult;
+    }
+
+    @Override
+    public ShowUserVO getUserBaseInfo(String userId) {
+        ShowUserVO userBaseInfo = userMapper.getUserBaseInfoByOpenid(userId);
+
+        return userBaseInfo;
     }
 
     private void createNewWxUser(String openid) throws Exception {

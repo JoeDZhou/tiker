@@ -6,8 +6,9 @@ import lombok.ToString;
 @Data
 @ToString
 public class ShowUserVO {
-    private String id;
-    private String account;
+    private String imgUrl;
     private String nickname;
     private String phone;
+    private String university;
+    private String campus;
 }

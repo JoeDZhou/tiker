@@ -31,6 +31,14 @@
         where openid = #{openid}
     </select>
 
+    <select id="getUserBaseInfoByOpenid" resultType="com.tiker.entity.vo.ShowUserVO">
+        select
+            u.nickname, u.phone, u.img_url, a.university, a.campus
+        from `wx_user` u left join address a
+        on a.user = u.openid
+        where u.openid = #{openid}
+    </select>
+
     <insert id="insertNewWxUser" parameterType="com.tiker.entity.bo.WxUserBo">
         insert into
             wx_user(openid, nickname, created_time, last_login_time)

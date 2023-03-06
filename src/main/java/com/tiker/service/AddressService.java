@@ -12,5 +12,7 @@ public interface AddressService {
 
     List<ShowAddressVO> getUserAddressList(String userId);
 
+    ShowAddressVO getUserDefaultAddress(String userId);
+
     int deleteAddress(String addressId);
 }
