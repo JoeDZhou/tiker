@@ -1,14 +1,19 @@
 package com.tiker.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.tiker.dao.UserMapper;
 import com.tiker.entity.bo.UserBO;
-import com.tiker.entity.dto.CreateUserDTO;
+import com.tiker.entity.bo.WxUserBo;
+import com.tiker.entity.dto.WXLoginResultDTO;
 import com.tiker.service.UserService;
-import com.tiker.util.IDGenerator;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,17 +21,57 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private RestTemplate restTemplate;
+
+//    @Override
+//    public int userRegister(CreateUserDTO createUserDTO) {
+//        validPhoneNumber(createUserDTO.getPhone());
+//        validPassword(createUserDTO.getPassword());
+//        UserBO user = new UserBO();
+//        user.setId(IDGenerator.generateUUID(64));
+//        user.setAccount(IDGenerator.generateUUID(32));
+//        BeanUtils.copyProperties(createUserDTO, user);
+//
+//        return userMapper.insertUser(user);
+//    }
 
     @Override
-    public int userRegister(CreateUserDTO createUserDTO) {
-        validPhoneNumber(createUserDTO.getPhone());
-        validPassword(createUserDTO.getPassword());
-        UserBO user = new UserBO();
-        user.setId(IDGenerator.generateUUID(64));
-        user.setAccount(IDGenerator.generateUUID(32));
-        BeanUtils.copyProperties(createUserDTO, user);
+    @Transactional
+    public WXLoginResultDTO userLogin(String code) throws Exception {
+        //小程序唯一标识   (在微信小程序管理后台获取)
+        String wxspAppid = "wx6662b5baa78b2601";
+        //小程序的 app secret (在微信小程序管理后台获取)
+        String wxspSecret = "60a0eb2a0c72d7b00fce77ced023325c";
 
-        return userMapper.insertUser(user);
+        String url="https://api.weixin.qq.com/sns/jscode2session?appid="
+                + wxspAppid +"&secret="+ wxspSecret +"&js_code="+code+"&grant_type=authorization_code";
+
+        String result = restTemplate.getForObject(url, String.class);
+        System.out.println("Result: " + result);
+        WXLoginResultDTO loginResult = JSON.parseObject(result, WXLoginResultDTO.class);
+        if (loginResult.getOpenid() != null) {
+            String wxUser = userMapper.getUserByOpenid(loginResult.getOpenid());
+            if (wxUser == null) {
+                createNewWxUser(loginResult.getOpenid());
+            }
+        }
+
+        return loginResult;
+    }
+
+    private void createNewWxUser(String openid) throws Exception {
+        String randomNickname = "TikerUser" + new Random().nextInt(Integer.MAX_VALUE);
+        WxUserBo wxUserBo = new WxUserBo()
+                .setOpenid(openid)
+                .setNickname(randomNickname)
+                .setCreatedTime(new Date())
+                .setLastLoginTime(new Date());
+
+        int insertNum = userMapper.insertNewWxUser(wxUserBo);
+        if (insertNum < 1) {
+            throw new Exception("Create new WX user failed");
+        }
     }
 
     private boolean validPhoneNumber(String phoneNumber) {
@@ -45,16 +90,12 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    private boolean validPassword(String password) {
-        if (password.length() < 8 || password.length() > 32){
-            return false;
-        }
 
-        return true;
-    }
-
-    @Override
-    public String userLogin() {
-        return null;
-    }
+    //   private boolean validPassword(String password) {
+//        if (password.length() < 8 || password.length() > 32){
+//            return false;
+//        }
+//
+//        return true;
+//    }
 }

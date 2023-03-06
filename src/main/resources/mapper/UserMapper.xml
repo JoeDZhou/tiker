@@ -23,4 +23,17 @@
             and phone = #{phone}
         </if>
     </select>
+
+    <select id="getUserByOpenid" resultType="String" >
+        select
+            openid
+        from wx_user
+        where openid = #{openid}
+    </select>
+
+    <insert id="insertNewWxUser" parameterType="com.tiker.entity.bo.WxUserBo">
+        insert into
+            wx_user(openid, nickname, created_time, last_login_time)
+        value(#{openid}, #{nickname}, #{createdTime}, #{lastLoginTime});
+    </insert>
 </mapper>

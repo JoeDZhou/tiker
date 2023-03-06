@@ -35,8 +35,7 @@ public class DutyMapperTest {
         testDuty.setId(IDGenerator.generateUUID(32));
         testDuty.setUniversity("testUniversity");
         testDuty.setCampus("testCampus");
-        testDuty.setBuilding("testBuilding");
-        testDuty.setSchoolRoom("testSchoolRoom");
+        testDuty.setLocation("testBuilding");
         testDuty.setCourse("testCourse");
         testDuty.setDate(new Date());
         testDuty.setStartTime(new Date());

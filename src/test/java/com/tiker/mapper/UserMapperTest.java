@@ -2,6 +2,7 @@ package com.tiker.mapper;
 
 import com.tiker.dao.UserMapper;
 import com.tiker.entity.bo.UserBO;
+import com.tiker.entity.bo.WxUserBo;
 import com.tiker.util.IDGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
@@ -28,6 +31,18 @@ public class UserMapperTest {
         testUser1.setAccount("testCollege");
 
         int user1InsertResult = userMapper.insertUser(testUser1);
+        assertEquals(user1InsertResult, 1);
+    }
+
+    @Test
+    public void testInsertWxUser(){
+        WxUserBo testWxUser = new WxUserBo()
+                .setOpenid("ttttt")
+                .setNickname("testest")
+                .setCreatedTime(new Date())
+                .setLastLoginTime(new Date());
+
+        int user1InsertResult = userMapper.insertNewWxUser(testWxUser);
         assertEquals(user1InsertResult, 1);
     }
 }

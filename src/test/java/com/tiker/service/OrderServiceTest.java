@@ -22,8 +22,7 @@ public class OrderServiceTest {
         CreateOrderDTO createOrderDto = new CreateOrderDTO();
         createOrderDto.setUniversity("testUniversity12356456");
         createOrderDto.setCampus("testCampus");
-        createOrderDto.setBuilding("testBuilding");
-        createOrderDto.setSchoolRoom("testSchoolRoom");
+        createOrderDto.setLocation("testBuilding");
         createOrderDto.setCourse("testCourse");
         createOrderDto.setDate("2023-01-02");
         createOrderDto.setStartTime("11:30:30");
