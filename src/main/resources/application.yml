@@ -12,3 +12,7 @@ spring:
     username: root
     password: Zhoujiazheng123...
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  level:
+    com.tiker.dao.OrderMapper : debug

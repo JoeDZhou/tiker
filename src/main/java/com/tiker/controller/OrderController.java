@@ -75,6 +75,8 @@ public class OrderController {
 
     @PostMapping("/finishOrder")
     public RestResultDTO finishOrder(@RequestParam("orderId") String orderId, @RequestParam("requesterId") String requesterId) throws Exception {
+        System.out.println("OrderId: " + orderId);
+        System.out.println("RequesterId: " + requesterId);
         int finishNum = orderService.finishOrder(orderId, requesterId);
         if (finishNum > 0) {
             return new RestResultDTO(0, "Success", null);

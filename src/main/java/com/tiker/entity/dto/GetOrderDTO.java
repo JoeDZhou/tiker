@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class GetOrderDTO {
+    private String userId;
     private String university;
     private String campus;
     private String date;

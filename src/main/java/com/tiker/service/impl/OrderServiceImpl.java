@@ -1,5 +1,6 @@
 package com.tiker.service.impl;
 
+import com.tiker.dao.AddressMapper;
 import com.tiker.dao.DutyMapper;
 import com.tiker.dao.OrderMapper;
 import com.tiker.entity.bo.DutyBO;
@@ -7,8 +8,10 @@ import com.tiker.entity.bo.GetOrderBO;
 import com.tiker.entity.bo.OrderBO;
 import com.tiker.entity.dto.CreateOrderDTO;
 import com.tiker.entity.dto.GetOrderDTO;
+import com.tiker.entity.vo.ShowAddressVO;
 import com.tiker.entity.vo.ShowOrderVO;
 import com.tiker.enums.OrderStatusEnum;
+import com.tiker.service.AddressService;
 import com.tiker.service.OrderService;
 import com.tiker.util.IDGenerator;
 import org.springframework.beans.BeanUtils;
@@ -28,16 +31,24 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
     @Resource
     private DutyMapper dutyMapper;
+    @Resource
+    private AddressMapper addressMapper;
 
     private SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat timeFormat =  new SimpleDateFormat("HH:mm");
 
     @Override
     public int createOrder(CreateOrderDTO createOrderDto) throws Exception {
+        String requesterId = createOrderDto.getRequester();
+        ShowAddressVO addressVO = addressMapper.getAddressByDefaultOrNot(requesterId, AddressServiceImpl.DEFAULT_ADDRESS).get(0);
+        System.out.println(addressVO);
+
         DutyBO duty = new DutyBO();
         String dutyId = IDGenerator.generateUUID(DUTY_ID_LENGTH);
         duty.setId(dutyId);
         BeanUtils.copyProperties(createOrderDto, duty);
+        duty.setUniversity(addressVO.getUniversity());
+        duty.setCampus(addressVO.getCampus());
         duty.setDate(dateFormat.parse(createOrderDto.getDate()));
         duty.setStartTime(timeFormat.parse(createOrderDto.getStartTime()));
         duty.setEndTime(timeFormat.parse(createOrderDto.getEndTime()));
@@ -66,10 +77,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<ShowOrderVO> getOrderList(GetOrderDTO getOrderDto) throws ParseException {
         GetOrderBO getOrderBO = new GetOrderBO();
+        ShowAddressVO addressVO = addressMapper.getAddressByDefaultOrNot(getOrderDto.getUserId(), AddressServiceImpl.DEFAULT_ADDRESS).get(0);
+        if (addressVO != null) {
+            BeanUtils.copyProperties(addressVO, getOrderBO);
+        }
         getOrderBO.setDate(dateFormat.parse(getOrderDto.getDate()));
         getOrderBO.setStartTime(timeFormat.parse(getOrderDto.getStartTime()));
         getOrderBO.setEndTime(timeFormat.parse(getOrderDto.getEndTime()));
-        BeanUtils.copyProperties(getOrderDto, getOrderBO);
 
         List<ShowOrderVO> orders =  orderMapper.getOrderListByFilter(getOrderBO);
         parseOrderTime(orders);
@@ -126,7 +140,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int finishOrder(String orderId, String requesterId) throws Exception {
+        System.out.println("Finish order");
         OrderBO toFinishOrder = orderMapper.getOrder(orderId, requesterId, null, OrderStatusEnum.COMPlETE_ORDER.getStatusCode());
+        System.out.println("To finish order: " +toFinishOrder);
         if (toFinishOrder == null) {
             throw new Exception("Error: No such order");
         }

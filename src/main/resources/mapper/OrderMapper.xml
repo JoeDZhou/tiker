@@ -35,7 +35,7 @@
 
     <select id="getOrder" resultType="com.tiker.entity.bo.OrderBO">
         select
-            id, status, requester
+            id, status, requester, recipient
         from `order`
         where id = #{id}
         <if test="status != null">
