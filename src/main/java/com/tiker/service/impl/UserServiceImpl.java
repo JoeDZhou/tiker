@@ -1,10 +1,14 @@
 package com.tiker.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.tiker.dao.AddressMapper;
 import com.tiker.dao.UserMapper;
 import com.tiker.entity.bo.UserBO;
 import com.tiker.entity.bo.WxUserBo;
+import com.tiker.entity.dto.AddressDTO;
+import com.tiker.entity.dto.UpdateUserDTO;
 import com.tiker.entity.dto.WXLoginResultDTO;
+import com.tiker.entity.vo.ShowAddressVO;
 import com.tiker.entity.vo.ShowUserVO;
 import com.tiker.service.UserService;
 import org.springframework.stereotype.Service;
@@ -14,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +27,8 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private AddressMapper addressMapper;
     @Resource
     private RestTemplate restTemplate;
 
@@ -66,6 +73,42 @@ public class UserServiceImpl implements UserService {
         ShowUserVO userBaseInfo = userMapper.getUserBaseInfoByOpenid(userId);
 
         return userBaseInfo;
+    }
+
+    @Override
+    @Transactional
+    public int updateUserBaseInfo(UpdateUserDTO updateUserDTO) throws Exception {
+        System.out.println("update dto: " + updateUserDTO);
+        System.out.println("Service");
+        int userUpdateNum = userMapper.updateUserBaseInfo(updateUserDTO.getUserId(), updateUserDTO.getNickname(), updateUserDTO.getPhone());
+        System.out.println("user update num: " + userUpdateNum);
+        if (userUpdateNum < 1) {
+            throw new Exception("Update user info failed");
+        }
+        List<ShowAddressVO> defaultAddresses = addressMapper.getAddressByDefaultOrNot(updateUserDTO.getUserId(), AddressServiceImpl.DEFAULT_ADDRESS);
+        System.out.println("Address: " + defaultAddresses);
+        if (defaultAddresses.isEmpty()) {
+            throw new Exception("No such address");
+        }
+
+        AddressDTO addressDTO = new AddressDTO()
+                .setId(defaultAddresses.get(0).getId())
+                .setUser(updateUserDTO.getUserId())
+                .setUniversity(updateUserDTO.getUniversity())
+                .setCampus(updateUserDTO.getCampus())
+                .setIsDefault(AddressServiceImpl.DEFAULT_ADDRESS);
+        System.out.println("DTO: " + addressDTO);
+
+        int addressUpdateNum = addressMapper.updateAddress(addressDTO);
+        if (addressUpdateNum < 1) {
+            throw new Exception("Update user address failed");
+        }
+
+        if (userUpdateNum + addressUpdateNum == 2){
+            return 1;
+        }
+
+        return 0;
     }
 
     private void createNewWxUser(String openid) throws Exception {

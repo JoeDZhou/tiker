@@ -14,5 +14,7 @@ public interface UserMapper {
 
     ShowUserVO getUserBaseInfoByOpenid(@Param("openid") String openid);
 
+    int updateUserBaseInfo(@Param("userId") String userId, @Param("nickname") String nickname, @Param("phone") String phone);
+
     int insertNewWxUser(WxUserBo wxUserBo);
 }

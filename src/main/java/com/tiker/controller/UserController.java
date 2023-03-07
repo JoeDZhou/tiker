@@ -2,6 +2,7 @@ package com.tiker.controller;
 
 import com.tiker.entity.dto.CreateUserDTO;
 import com.tiker.entity.dto.RestResultDTO;
+import com.tiker.entity.dto.UpdateUserDTO;
 import com.tiker.entity.dto.WXLoginResultDTO;
 import com.tiker.entity.vo.ShowUserVO;
 import com.tiker.service.UserService;
@@ -43,6 +44,17 @@ public class UserController {
             return new RestResultDTO(0, "Success", userVO);
         } else {
             return new RestResultDTO(1, "Get user base info failed", null);
+        }
+    }
+
+    @PostMapping("/updateBaseInfo")
+    public RestResultDTO updateBaseInfo(@RequestBody UpdateUserDTO updateUserDTO) throws Exception {
+        int updateNum = userService.updateUserBaseInfo(updateUserDTO);
+        System.out.println("Controller");
+        if (updateNum < 1) {
+            return new RestResultDTO(1, "Failed", "Update user base info failed");
+        } else {
+            return new RestResultDTO(0, "Success", null);
         }
     }
 }

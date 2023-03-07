@@ -16,3 +16,5 @@ spring:
 logging:
   level:
     com.tiker.dao.OrderMapper : debug
+    com.tiker.dao.AddressMapper : debug
+    com.tiker.dao.UserMapper : debug
