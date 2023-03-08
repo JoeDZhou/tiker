@@ -1,5 +1,9 @@
 server:
   port: 8080
+  ssl:
+    key-store: classpath:tiker.cloud.jks
+    key-store-password: ez2g8546fa
+    key-store-type: JKS
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
