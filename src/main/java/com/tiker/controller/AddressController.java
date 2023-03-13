@@ -66,14 +66,4 @@ public class AddressController {
 
         return new RestResultDTO(0, "Success", searchResults);
     }
-
-    @PostMapping("/updateUserUniversityAndCampus")
-    public RestResultDTO updateUserUniversityAndCampus(@RequestBody AddressDTO address) {
-        int operationNum = addressService.updateUserUniversityAndCampus(address);
-        if (operationNum > 0) {
-            return new RestResultDTO(0, "Success", null);
-        } else {
-            return new RestResultDTO(1, "操作失败", null);
-        }
-    }
 }

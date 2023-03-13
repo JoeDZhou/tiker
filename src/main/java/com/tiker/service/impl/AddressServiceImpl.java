@@ -78,24 +78,6 @@ public class AddressServiceImpl implements AddressService {
         return new ArrayList<>(universityIdToResultMap.values());
     }
 
-    @Override
-    @Transactional
-    public int updateUserUniversityAndCampus(AddressDTO address) {
-        List<ShowAddressVO> showAddressVOList = addressMapper.getAddressByDefaultOrNot(address.getUser(), DEFAULT_ADDRESS);
-        AddressDTO newAddress = new AddressDTO();
-        if (!showAddressVOList.isEmpty()) {
-            BeanUtils.copyProperties(showAddressVOList.get(0), newAddress);
-            newAddress.setUniversity(address.getUniversity()).setCampus(address.getCampus());
-            return addressMapper.updateAddress(newAddress);
-        } else {
-            newAddress.setUser(address.getUser())
-                    .setUniversity(address.getUniversity())
-                    .setCampus(address.getCampus())
-                    .setIsDefault(DEFAULT_ADDRESS);
-            return addressMapper.insertAddress(newAddress);
-        }
-    }
-
     private void cancelCurrentDefaultAddress(String userId) {
         List<ShowAddressVO> currentDefaultAddress = addressMapper.getAddressByDefaultOrNot(userId, DEFAULT_ADDRESS);
         if (!currentDefaultAddress.isEmpty()) {

@@ -18,6 +18,4 @@ public interface AddressService {
     int deleteAddress(String addressId);
 
     List<SearchUniversityAndCampusResultVO> searchUniversityAndCampus(String searchKey);
-
-    int updateUserUniversityAndCampus(AddressDTO address);
 }
