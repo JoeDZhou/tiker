@@ -1,14 +1,18 @@
 package com.tiker.service.impl;
 
 import com.tiker.dao.AddressMapper;
+import com.tiker.entity.bo.SearchUniversityAndCampusBO;
 import com.tiker.entity.dto.AddressDTO;
+import com.tiker.entity.vo.SearchUniversityAndCampusResultVO;
 import com.tiker.entity.vo.ShowAddressVO;
 import com.tiker.service.AddressService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -55,6 +59,41 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public int deleteAddress(String addressId) {
         return addressMapper.deleteAddress(addressId);
+    }
+
+    @Override
+    public List<SearchUniversityAndCampusResultVO> searchUniversityAndCampus(String searchKey) {
+        List<SearchUniversityAndCampusBO> universitySearchResult = addressMapper.searchUniversityAndCampus(searchKey);
+        Map<String, SearchUniversityAndCampusResultVO> universityIdToResultMap = new HashMap<>();
+        for (SearchUniversityAndCampusBO bo : universitySearchResult) {
+            if (!universityIdToResultMap.containsKey(bo.getUniversityId())) {
+                universityIdToResultMap.put(bo.getUniversityId(),
+                        new SearchUniversityAndCampusResultVO()
+                                .setId(bo.getUniversityId())
+                                .setName(bo.getUniversityName())
+                                .setCampusVOList(new ArrayList<>()));
+            }
+            universityIdToResultMap.get(bo.getUniversityId()).addCampusToList(bo.getCampusId(), bo.getCampusName());
+        }
+        return new ArrayList<>(universityIdToResultMap.values());
+    }
+
+    @Override
+    @Transactional
+    public int updateUserUniversityAndCampus(AddressDTO address) {
+        List<ShowAddressVO> showAddressVOList = addressMapper.getAddressByDefaultOrNot(address.getUser(), DEFAULT_ADDRESS);
+        AddressDTO newAddress = new AddressDTO();
+        if (!showAddressVOList.isEmpty()) {
+            BeanUtils.copyProperties(showAddressVOList.get(0), newAddress);
+            newAddress.setUniversity(address.getUniversity()).setCampus(address.getCampus());
+            return addressMapper.updateAddress(newAddress);
+        } else {
+            newAddress.setUser(address.getUser())
+                    .setUniversity(address.getUniversity())
+                    .setCampus(address.getCampus())
+                    .setIsDefault(DEFAULT_ADDRESS);
+            return addressMapper.insertAddress(newAddress);
+        }
     }
 
     private void cancelCurrentDefaultAddress(String userId) {

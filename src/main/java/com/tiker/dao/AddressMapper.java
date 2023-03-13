@@ -1,6 +1,8 @@
 package com.tiker.dao;
 
+import com.tiker.entity.bo.SearchUniversityAndCampusBO;
 import com.tiker.entity.dto.AddressDTO;
+import com.tiker.entity.vo.SearchUniversityAndCampusResultVO;
 import com.tiker.entity.vo.ShowAddressVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +18,6 @@ public interface AddressMapper {
     int updateAddress(AddressDTO addressDTO);
 
     int deleteAddress(@Param("addressId") String addressId);
+
+    List<SearchUniversityAndCampusBO> searchUniversityAndCampus(@Param("searchKey") String searchKey);
 }

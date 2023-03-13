@@ -41,4 +41,12 @@
         from address
         where id = #{addressId}
     </delete>
+
+    <select id="searchUniversityAndCampus" resultType="com.tiker.entity.bo.SearchUniversityAndCampusBO">
+        select
+            u.id as universityId, u.name as universityName, c.id as campusId, c.name as campusName
+        from university u right join campus c
+        on u.id = c.university
+        where u.name like "%"#{searchKey}"%"
+    </select>
 </mapper>

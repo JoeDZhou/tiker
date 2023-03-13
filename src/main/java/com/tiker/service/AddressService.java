@@ -1,6 +1,7 @@
 package com.tiker.service;
 
 import com.tiker.entity.dto.AddressDTO;
+import com.tiker.entity.vo.SearchUniversityAndCampusResultVO;
 import com.tiker.entity.vo.ShowAddressVO;
 
 import java.util.List;
@@ -15,4 +16,8 @@ public interface AddressService {
     ShowAddressVO getUserDefaultAddress(String userId);
 
     int deleteAddress(String addressId);
+
+    List<SearchUniversityAndCampusResultVO> searchUniversityAndCampus(String searchKey);
+
+    int updateUserUniversityAndCampus(AddressDTO address);
 }

@@ -2,6 +2,7 @@ package com.tiker.controller;
 
 import com.tiker.entity.dto.AddressDTO;
 import com.tiker.entity.dto.RestResultDTO;
+import com.tiker.entity.vo.SearchUniversityAndCampusResultVO;
 import com.tiker.entity.vo.ShowAddressVO;
 import com.tiker.service.AddressService;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +57,23 @@ public class AddressController {
             return new RestResultDTO(0, "Success", null);
         } else {
             return new RestResultDTO(1, "Delete address error", null);
+        }
+    }
+
+    @GetMapping("/searchUniversityAndCampus")
+    public RestResultDTO searchUniversityAndCampus(@RequestParam("searchKey") String searchKey) {
+        List<SearchUniversityAndCampusResultVO> searchResults = addressService.searchUniversityAndCampus(searchKey);
+
+        return new RestResultDTO(0, "Success", searchResults);
+    }
+
+    @PostMapping("/updateUserUniversityAndCampus")
+    public RestResultDTO updateUserUniversityAndCampus(@RequestBody AddressDTO address) {
+        int operationNum = addressService.updateUserUniversityAndCampus(address);
+        if (operationNum > 0) {
+            return new RestResultDTO(0, "Success", null);
+        } else {
+            return new RestResultDTO(1, "操作失败", null);
         }
     }
 }
