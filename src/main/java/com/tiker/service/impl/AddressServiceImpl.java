@@ -6,6 +6,7 @@ import com.tiker.entity.dto.AddressDTO;
 import com.tiker.entity.vo.SearchUniversityAndCampusResultVO;
 import com.tiker.entity.vo.ShowAddressVO;
 import com.tiker.service.AddressService;
+import com.tiker.util.IDGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,11 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public int createAddress(AddressDTO addressDTO) {
-        cancelCurrentDefaultAddress(addressDTO.getUser());
+        if (addressDTO.getIsDefault() == 1) {
+            cancelCurrentDefaultAddress(addressDTO.getUser());
+        }
+
+        addressDTO.setId(IDGenerator.generateUUID(32));
 
         return addressMapper.insertAddress(addressDTO);
     }

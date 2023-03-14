@@ -31,6 +31,7 @@
             and d.start_time >= #{startTime}
             and d.end_time &lt;= #{endTime}
         </if>
+        order by created_time desc
     </select>
 
     <select id="getOrder" resultType="com.tiker.entity.bo.OrderBO">
@@ -61,7 +62,8 @@
 
     <select id="getOrderByUserAndStatus" resultType="com.tiker.entity.vo.ShowOrderVO">
         select
-            o.id as orderId, o.price, o.requester, o.recipient, o.rate, o.status,
+            o.id as orderId, o.price, o.requester, o.recipient,
+            o.rate, o.status, o.created_time as createdTime, o.updated_time as updatedTime,
             d.id as dutyId, d.university, d.campus, d.location, d.course,
             d.date, d.start_time as startTime, d.end_time as endTime, d.comment
         from `order` o join duty d
@@ -76,57 +78,6 @@
         <if test="status >= 0">
             and o.status = #{status}
         </if>
+        order by updated_time desc
     </select>
-
-<!--    <select id="selectOrderList" resultType="com.tiker.entity.bo.OrderBO" >-->
-<!--        select-->
-<!--            *-->
-<!--        from-->
-<!--            orders-->
-<!--    </select>-->
-
-<!--    <select id="queryOrderListByUserIdAndStatus" resultType="com.tiker.entity.vo.ShowOrderVO">-->
-<!--        select-->
-<!--        o.id, o.price, o.request_user_id, o.accept_user_id, d.start_datetime, d.end_datetime,-->
-<!--        d.college, d.building, d.classroom, d.class_name, d.comment-->
-<!--        from-->
-<!--        orders o, duties d-->
-<!--        where o.id = d.order_id-->
-<!--        <if test="requestUserId != null">-->
-<!--            and o.request_user_id = #{requestUserId}-->
-<!--        </if>-->
-<!--        <if test="acceptUserId != null">-->
-<!--            and o.accept_user_id = #{acceptUserId}-->
-<!--        </if>-->
-<!--        and o.status = #{status}-->
-<!--    </select>-->
-
-<!--    <update id="updateAcceptorAndStatus">-->
-<!--        update-->
-<!--            orders-->
-<!--        set-->
-<!--            accept_user_id = #{acceptUserId}, status = #{orderStatus}-->
-<!--        where-->
-<!--            id = #{orderId}-->
-<!--    </update>-->
-
-<!--    <update id="updateStatus">-->
-<!--        update-->
-<!--            orders-->
-<!--        set-->
-<!--            status = #{orderStatus}-->
-<!--        where-->
-<!--            id = #{orderId}-->
-<!--    </update>-->
-
-
-<!--    <resultMap type="Student" id="StudentResult">-->
-<!--        <id property="id" column="id"/>-->
-<!--        <result property="name" column="name"/>-->
-<!--        <result property="age" column="age"/>-->
-<!--        <association property="address" column="addid" select="com.qbd.mapper.AddressMappers.findbyid">-->
-<!--        </association>-->
-<!--        <association property="grade" column="gid" select="com.qbd.mapper.GradeMappers.findbyid">-->
-<!--        </association>-->
-<!--    </resultMap>-->
 </mapper>

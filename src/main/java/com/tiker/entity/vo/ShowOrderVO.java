@@ -1,7 +1,10 @@
 package com.tiker.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.apache.tomcat.jni.Local;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -13,6 +16,11 @@ public class ShowOrderVO {
     private String requester;
     private String recipient;
     private int rate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    private LocalDateTime updatedTime;
 
     //duty fields
     private String dutyId;

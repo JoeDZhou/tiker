@@ -36,7 +36,7 @@
             u.nickname, u.phone, u.img_url, a.university, a.campus
         from `wx_user` u left join address a
         on a.user = u.openid
-        where u.openid = #{openid}
+        where u.openid = #{openid} and a.default = 1
     </select>
 
     <update id="updateUserBaseInfo">
